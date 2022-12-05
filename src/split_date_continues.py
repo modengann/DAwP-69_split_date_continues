@@ -4,7 +4,17 @@ import pandas as pd
 
 
 def split_date():
-    pass
+    d = df["Päivämäärä"].str.split(expand=True)
+    d.columns = ["Weekday", "Day", "Month", "Year", "Hour"]
+
+    hourmin = d["Hour"].str.split(":", expand=True)
+    d["Hour"] = hourmin.iloc[:, 0]
+
+    d["Weekday"] = d["Weekday"].map(days)
+    d["Month"] = d["Month"].map(months)
+    
+    d = d.astype({"Weekday": object, "Day": int, "Month": int, "Year": int, "Hour": int})
+    return d
 
 def split_date_continues():
     pass
