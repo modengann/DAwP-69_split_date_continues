@@ -4,17 +4,45 @@ import pandas as pd
 
 
 def split_date():
-    d = df["Päivämäärä"].str.split(expand=True)
-    d.columns = ["Weekday", "Day", "Month", "Year", "Hour"]
-
-    hourmin = d["Hour"].str.split(":", expand=True)
-    d["Hour"] = hourmin.iloc[:, 0]
-
-    d["Weekday"] = d["Weekday"].map(days)
-    d["Month"] = d["Month"].map(months)
+   df = pd.read_csv("src\Helsingin_pyorailijamaarat.csv", sep = ";")
+    df = df.dropna(how = "all")
+    df = df.dropna(axis = 1, how = "all")
+    split_days = df["Päivämäärä"].str.split(expand = True)
+    split_days.columns = ["Weekday", "Day", "Month", "Year", "Hour"]
     
-    d = d.astype({"Weekday": object, "Day": int, "Month": int, "Year": int, "Hour": int})
-    return d
+    weekdays = {
+        "ma":"Mon",
+        "ti":"Tue",
+        "ke":"Wed",
+        "to":"Thu",
+        "pe":"Fri",
+        "la":"Sat",
+        "su":"Sun"
+    }
+    
+    months = {
+        "tammi" : "1",
+        "helmi" : "2",
+        "maalis" : "3",
+        "huhti" : " 4",
+        "touko" : "5",
+        "kesä" : "6",
+        "heinä" : "7",
+        "elo" : "8",
+        "syys" : "9",
+        "loka" : "10",
+        "marras" : "11",
+        "joulu" : "12"
+    }
+    split_days = split_days.replace(weekdays)
+    split_days = split_days.replace(months)
+    
+    split_days["Hour"] = split_days["Hour"].str.slice(stop = 2)
+    
+    split_days = split_days.astype({"Month" : int, "Day" : int, "Year" : int, "Hour" : int})
+    
+    
+    return split_days
 
 def split_date_continues():
     pass
