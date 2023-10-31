@@ -34,8 +34,9 @@ def split_date_continues():
     return df
 
 def main():
-
     df = split_date_continues()
+
+    #Uncomment these lines after you have completed your task
     # print("Shape:", df.shape)
     # print("Column names:\n", df.columns)
     # print(df.head())
