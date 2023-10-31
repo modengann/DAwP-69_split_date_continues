@@ -2,11 +2,8 @@
 
 import pandas as pd
 
-
-def split_date():
-    df = pd.read_csv("src\Helsingin_pyorailijamaarat.csv", sep = ";")
-    df.dropna(how = "all", axis = 1, inplace = True)
-    df.dropna(how = "all", inplace = True)
+#Do not modify
+def split_date(df):
     split_data = df["Päivämäärä"].str.split(expand=True)
     split_data.columns = ["Weekday", "Day", "Month", "Year", "Hour"]
     split_data["Hour"] = split_data["Hour"].str[0:2]
@@ -22,15 +19,26 @@ def split_date():
     split_data = split_data.astype({"Day" : int, "Month" : int, "Year" : int, "Hour": int})
     return split_data
 
+#Do not modify
+def load_data():
+    df = pd.read_csv("src\Helsingin_pyorailijamaarat.csv", sep = ";")
+    df.dropna(how = "all", axis = 1, inplace = True)
+    df.dropna(how = "all", inplace = True)
+    return df
+
 def split_date_continues():
-    df = split_date()
-    pass
+    df = load_data() #Contains the full data with blank columns and rows removed
+    split_data = split_date(df) #Contains the split date information, as we did in exercise 67
+
+    #Write your code below
+    return df
 
 def main():
+
     df = split_date_continues()
-    print("Shape:", df.shape)
-    print("Column names:\n", df.columns)
-    print(df.head())
+    # print("Shape:", df.shape)
+    # print("Column names:\n", df.columns)
+    # print(df.head())
 
 
 if __name__ == "__main__":
