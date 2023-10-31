@@ -23,6 +23,7 @@ def split_date():
     return split_data
 
 def split_date_continues():
+    df = split_date()
     pass
 
 def main():
